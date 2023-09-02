@@ -24,7 +24,12 @@ const StudyManagement = () => {
 
   const fetchAPI = async () => {
     try {
-      const responseAPI = await fetch("https://busy-lime-bream-sock.cyclic.app/api/data");
+      const responseAPI = await fetch("https://busy-lime-bream-sock.cyclic.app/api/data"
+                                     , {
+  headers: {
+    Accept: "application/json", // This sets the "Accept" header to indicate you want JSON response
+  },
+                                       );
       const resJson = await responseAPI.json();
       const processedData = resJson.map(item => ({
         patient: item.patient || {},
