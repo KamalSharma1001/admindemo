@@ -24,12 +24,10 @@ const StudyManagement = () => {
 
   const fetchAPI = async () => {
     try {
-      const responseAPI = await fetch("https://busy-lime-bream-sock.cyclic.app/api/data"
-                                     , {
-  headers: {
-    Accept: "application/json", // This sets the "Accept" header to indicate you want JSON response
-  },
-                                       );
+      //old api data fetch url
+      //const responseAPI = await fetch("https://busy-lime-bream-sock.cyclic.app/api/data");
+      //New schema data API
+      const responseAPI = await fetch("https://busy-lime-bream-sock.cyclic.app/api/v2/getdata");
       const resJson = await responseAPI.json();
       const processedData = resJson.map(item => ({
         patient: item.patient || {},
@@ -46,8 +44,7 @@ const StudyManagement = () => {
         )
       );
       setModOptions([...new Set(processedData.map(item => item.series.Modality))]);
-      console.log(processedData[0].series.Modality)
-      setSelectedMods([...new Set(resJson.map(item => item.mod))]);
+      setSelectedMods([...new Set(resJson.map(item => item.series.Modality))]);
     } catch (err) {
       console.log("API Error Study: ", err);
     }
@@ -73,9 +70,6 @@ const StudyManagement = () => {
       setSelectedMods(modOptions);
     }
   };
-
-
-
 
   const HeaderColumns = [
     {
@@ -152,21 +146,21 @@ const StudyManagement = () => {
     ...item.study,
   }));
 
+
   const filteredData = combinedData.filter(
     (item) => {
-      console.log(APIdata)
       return (
-        (selectedMods.includes(item.mod) || selectedMods.includes("All")) &&
+        (selectedMods.includes(item.Modality) || selectedMods.includes("All")) &&
         (
-          (item.patientName?.toLowerCase()?.includes(patientName.toLowerCase())) ||
+          (item.PatientName?.toLowerCase()?.includes(patientName.toLowerCase())) ||
           patientName === ""
         ) &&
         (
-          item.patientID?.toLowerCase()?.includes(patientID.toLowerCase()) ||
+          item.PatientID?.toLowerCase()?.includes(patientID.toLowerCase()) ||
           patientID === ""
         ) &&
         (
-          item.bodyPart?.toLowerCase()?.includes(bodyPart.toLowerCase()) ||
+          item.BodyPartExamined?.toLowerCase()?.includes(bodyPart.toLowerCase()) ||
           bodyPart === ""
         ) &&
         (selectedStatus === "" || item.status === selectedStatus) &&
@@ -182,6 +176,7 @@ const StudyManagement = () => {
   return (
     <>
       <div className="main-container">
+        {/* Header */}
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="page-header">
             <div className="row">
@@ -193,7 +188,7 @@ const StudyManagement = () => {
             </div>
           </div>
         </div>
-
+        {/* Filters */}
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="page-header ">
             <div className="row d-flex justify-content-around">
@@ -465,7 +460,7 @@ const StudyManagement = () => {
                 ))}
               </tbody>
             </table> */}
-              <CustomDataTable tittleName="" headers={HeaderColumns} filterData={combinedData} />
+              <CustomDataTable tittleName="" headers={HeaderColumns} filterData={filteredData} />
             </div>
           </div>
         </div>
