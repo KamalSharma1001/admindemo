@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import * as XLSX from "xlsx";
 
 const UserManagement = () => {
-
+    const [userData, setUserData] = useState([]);
     const [openModal, setOpenModal] = useState(false);
 
     const handleExport = () => {
@@ -24,6 +24,33 @@ const UserManagement = () => {
         link.download = "table-data.xlsx";
         link.click();
     };
+
+    const handleUser = async () => {
+        const token = localStorage.getItem('accessToken');
+        const headers = {
+            'Authorization': `Bearer ${token}` // Assuming it's a Bearer token, adjust if needed
+        };
+
+        const requestOptions = {
+            method: 'GET', // You can change the HTTP method as needed
+            headers: headers
+        };
+
+        const apiUrl = "https://busy-lime-bream-sock.cyclic.app/userauth/all"; // Replace with your API URL
+        try {
+            const responseAPI = await fetch(apiUrl, requestOptions);
+            const resJson = await responseAPI.json();
+            setUserData(resJson.users);
+            console.log(resJson)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    useEffect(() => {
+        handleUser()
+    }, [])
+
+
 
     return (
         <>
@@ -92,49 +119,34 @@ const UserManagement = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">Aman</th>
-                                        <td>Admin</td>
-                                        <td>Admin</td>
-                                        <td>Change Password</td>
-                                        <td><span class="badge badge-success">Disable</span></td>
-                                        <td><span class="badge badge-primary" style={{ cursor: "pointer" }} onClick={() => { setOpenModal(true); }}>Edit</span></td>
-                                        <td> <span class="badge badge-danger">Delete</span></td>
-                                        <td ><span class="badge badge-info">Lock</span></td>
-                                        {openModal && <EditModal closeModal={setOpenModal} />}
-
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Vishal</th>
-                                        <td>Admin</td>
-                                        <td>Admin</td>
-                                        <td>Change Password</td>
-                                        <td><span class="badge badge-success">Disable</span></td>
-                                        <td><span class="badge badge-primary">Edit</span></td>
-                                        <td> <span class="badge badge-danger">Delete</span></td>
-                                        <td ><span class="badge badge-info">Lock</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Praveen</th>
-                                        <td>Admin</td>
-                                        <td>Admin</td>
-                                        <td>Change Password</td>
-                                        <td><span class="badge badge-success">Disable</span></td>
-                                        <td><span class="badge badge-primary">Edit</span></td>
-                                        <td> <span class="badge badge-danger">Delete</span></td>
-                                        <td ><span class="badge badge-info">Lock</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Ritish</th>
-                                        <td>Admin</td>
-                                        <td>Admin</td>
-                                        <td>Change Password</td>
-                                        <td><span class="badge badge-success">Disable</span></td>
-                                        <td><span class="badge badge-primary">Edit</span></td>
-                                        <td> <span class="badge badge-danger">Delete</span></td>
-                                        <td ><span class="badge badge-info">Lock</span></td>
-                                    </tr>
-
+                                    {userData.map((user, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">{user.name}</th>
+                                            <td>{user.email}</td>
+                                            <td>User</td> {/* You can replace 'Admin' with user.role if available */}
+                                            <td>Change Password</td>
+                                            <td>
+                                                <span className="badge badge-success">Disable</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className="badge badge-primary"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => {
+                                                        setOpenModal(true);
+                                                    }}
+                                                >
+                                                    Edit
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className="badge badge-danger">Delete</span>
+                                            </td>
+                                            <td>
+                                                <span className="badge badge-info">Lock</span>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
 
