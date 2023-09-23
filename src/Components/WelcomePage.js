@@ -17,7 +17,8 @@ const WelcomePage = () => {
                                         <h4>Welcome Page</h4>
                                         <div className="custom-login-links">
                                             <Link to='/login' className="custom-login-link">Admin Login</Link>
-                                            <a href="http://localhost:3001/user/login" target="_blank" className="custom-login-link">User Login</a>
+                                           {/* <a href="http://localhost:3001/user/login" target="_blank" className="custom-login-link">User Login</a> */}
+                                            <a href="https://user-newdemo.vercel.app/user/login" target="_blank" className="custom-login-link">User Login</a>
                                             {/* <Link to='/register' className="custom-register-link" aria-disabled='true'>Register</Link><span> (For User and Admin)</span> */}
                                             <Link to='/' className="custom-register-link" aria-disabled='true'>Register</Link><span> (For User and Admin) </span>
                                             <span style={{color:"red",paddingLeft:"10px"}}> Admin Access</span>
