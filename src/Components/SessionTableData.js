@@ -7,7 +7,8 @@ function SessionTableData() {
 
     const fetchSessions = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/data');
+            //const response = await fetch('http://localhost:8000/api/data');
+            const response = await fetch('https://busy-lime-bream-sock.cyclic.app/api/data');
             const resData = await response.json();
             setSessions(resData);
         } catch (error) {

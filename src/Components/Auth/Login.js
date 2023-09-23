@@ -58,9 +58,9 @@ const Login = () => {
     const usersData = localStorage.getItem('formData');
     const users = usersData ? JSON.parse(usersData) : [];
 
-    console.log("localData", users);
-    console.log("userName", users.name);
-    console.log("password", users.password);
+    // console.log("localData", users);
+    // console.log("userName", users.name);
+    // console.log("password", users.password);
 
     //Find the user with the matching username and password
     const userCheck = users.name === userName && users.password === password
@@ -73,7 +73,8 @@ const Login = () => {
       // Navigate to the desired route after successful login
       navigate('/session-management'); // Change '/dashboard' to the appropriate route
     }
-    else if (userName === 'aman@123' && password === '123') {
+    //else if (userName === 'aman@123' && password === '123') {
+    else if (userName === 'dradmin96@admin' && password === 'dradmin96') {
       // Save data to local storage
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('userName', userName);

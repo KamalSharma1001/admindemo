@@ -75,7 +75,7 @@ const DashData = () => {
                 <div className="title">
                   {/* <h4>Dashboard</h4> */}
                   <h4 style={{ fontFamily: 'serif', fontSize: "25px" }}>Welcome,
-                    <span style={{fontSize:'30px'}}>  Dr. {userName.toLocaleUpperCase()} 👨‍⚕️</span>
+                    <span style={{ fontSize: '30px' }}>  Dr. {userName.toLocaleUpperCase()} 👨‍⚕️</span>
                   </h4>
                 </div>
               </div>
